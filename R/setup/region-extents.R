@@ -12,8 +12,3 @@ extent_ranges = tibble(Region = world_regions,
                                    terra::ext(c(95, 180, -47.66666666, 7.5)),
                                    terra::ext(c(-19, 55, -35, 38)),
                                    terra::ext(c(-14, 180, 0, 83))))
-
-# Strings identifying each world region to work with at a given time
-world_regions <- c("NorthAmerica", "SouthAmerica", "Oceania", "Africa", "Eurasia")
-w_names <- c("NAMERICA", "SAMERICA", "OCEANIA", "AFRICA", "EURASIA")
-rd_names <- c("North_America", "South_America", "Australia", "Africa", "Europe_and_Asia")
