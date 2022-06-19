@@ -1,8 +1,8 @@
-# Name: WGS84_areaRaster 
+# Name: wgs-area-calculator.R
 # Description: Generate raster with cell values representing grid areas based on WGS84 reference ellipsoid. 
 # This method is more sophisticated approach than that provided by the e.g. raster::area() function and follows methods outlined in Santini et al. 2010 https://doi.org/10.1111/j.1467-9671.2010.01200.x
 
-WGS84_areaRaster <- function(ResT) {
+WGS84_areaRaster = function(ResT) {
   # Function arguments:
   # ResT: Desired resolution of area raster in decimal degrees
   

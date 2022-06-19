@@ -16,14 +16,14 @@ for (i in 1:3) {
   
   wdpa_t_high = wdpa_t %>% 
     filter(IUCN_CAT %in% keep_classes_high) %>% 
-    filter(GIS_AREA > 1)
+    filter(GIS_AREA > 1) # filter also by reported surface area as min. 1 km2
   
   # "low" levels of protection
   keep_classes_low = c("IV", "V", "VI", "Not Applicable")
   
   wdpa_t_low = wdpa_t %>% 
     filter(IUCN_CAT %in% keep_classes_low) %>% 
-    filter(GIS_AREA > 1)
+    filter(GIS_AREA > 1) # filter also by reported surface area as min. 1 km2
   
   message("classes filtered")
   
@@ -84,7 +84,7 @@ wdpa_r3 = terra::rast(file.path(wdpa_wd,  "iucn_wdpa3_4to6.tif"))
 
 # compress all three into one raster
 wdpa_r_all = wdpa_r1+wdpa_r2+wdpa_r3
-wdpa_r_all[wdpa_r_all>=1] = 1
+wdpa_r_all[wdpa_r_all >= 1] = 1
 wdpa_r_all[wdpa_r_all != 1] = NA
 
 terra::writeRaster(x = wdpa_r_all, 

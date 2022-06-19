@@ -1,5 +1,5 @@
 # Name: p3-max-root-depth-elev.R
-# Description: Convert rooting depth data to elevations
+# Description: Convert rooting depths to elevations. 
 
 library(here)
 invisible(sapply(paste0(here("R/setup"), "/", list.files(here("R/setup"))), source)) 
@@ -21,7 +21,7 @@ for (i in 1:length(topo_folders)) {
   mrd_elev = topo_in - mrd_in # derive max root depth elevation by subtracting root depth from DEM
   
   terra::writeRaster(x = mrd_elev, 
-                     filename = file.path(wd, paste0("data/", world_regions[i], "/max_rd_elev.tif")),
+                     filename = file.path(dat_loc, world_regions[i], "max_rd_elev.tif"),
                      filetype = "GTiff", overwrite = T)
   message(paste0(wr_folders[i], " max root depth elev is done :) "))
 }

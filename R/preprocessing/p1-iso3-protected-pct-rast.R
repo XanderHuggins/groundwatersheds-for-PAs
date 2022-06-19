@@ -1,11 +1,11 @@
 # Name: p1-iso3-protected-pct-rast.R
-# Description: Generate grid cell area raster globally at 30 arc-second following Santini et al. 2010 https://doi.org/10.1111/j.1467-9671.2010.01200.x
+# Description: Generate raster that represents national rates of terrestrial protection.
 
 library(here)
 invisible(sapply(paste0(here("R/setup"), "/", list.files(here("R/setup"))), source)) 
 
 # import protected area statistics
-pa_stat = readr::read_csv("C:/Users/xande/Downloads/chapter3_national_pa_statistics.csv")
+pa_stat = readr::read_csv(file.path(dat_loc, "World/input/", "chapter3_national_pa_statistics.csv"))
 pa_stat = pa_stat |> dplyr::select(ISO3, pa_land_area, percentage_pa_land_cover, land_area)
 pa_stat$ID = seq(1, nrow(pa_stat))
 

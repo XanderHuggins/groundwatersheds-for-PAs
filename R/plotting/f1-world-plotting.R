@@ -6,20 +6,17 @@ library(here)
 invisible(sapply(paste0(here("R/setup"), "/", list.files(here("R/setup"))), source)) 
 
 # import data sheet and protected area shapefile, and merge
-s_df <- readr::read_csv(file.path(wd, paste0("data/STATS.csv")))
-protarea <- terra::vect(file.path(wdpa_wd, "contiguous_protected_areas.shp"))
-protarea <- merge(protarea, s_df, by.x='FID', by.y='CPA_ID')
+s_df = readr::read_csv(file.path(wd, paste0("data/STATS.csv")))
+protarea = terra::vect(file.path(wdpa_wd, "contiguous_protected_areas.shp"))
+protarea = merge(protarea, s_df, by.x='FID', by.y='CPA_ID')
 
 # get centroid for plotting 
-protarea_v <- terra::centroids(protarea)
-
-
-library(rnaturalearth)
-rnaturalearth::ne_countries()
+protarea_v = terra::centroids(protarea)
 
 # plot log RGS
-protarea_v$logRGS <- log10(protarea_v$RGS)
-logRGS <- tm_shape(rnaturalearth::ne_countries(), projection = "+proj=robin") +
+protarea_v$logRGS = log10(protarea_v$RGS)
+protarea_v = protarea_v[order(protarea_v$logRGS),]
+logRGS = tm_shape(rnaturalearth::ne_countries(), projection = "+proj=robin") +
   tm_polygons(border.col = "grey", col = "grey") +
   tm_shape(st_as_sf(protarea_v)) + 
   tm_symbols(col = "logRGS",
@@ -28,7 +25,7 @@ logRGS <- tm_shape(rnaturalearth::ne_countries(), projection = "+proj=robin") +
              border.alpha = 0,
              alpha = 1, 
              palette = scico(n = 100, palette = "batlow"),
-             breaks = c(0, 2),
+             breaks = c(0, 1),
              style = "cont",
              colorNA = NULL) +
   tm_layout(legend.show = T, 
@@ -39,7 +36,8 @@ logRGS
 tmap_save(logRGS, file.path(plot_sv, "log10-RGS-map.png"), dpi = 400, units = "in")
 
 # plot UPR
-UPR <- tm_shape(rnaturalearth::ne_countries(), projection = "+proj=robin") +
+protarea_v = terra::centroids(protarea)
+UPR = tm_shape(rnaturalearth::ne_countries(), projection = "+proj=robin") +
   tm_polygons(border.col = "grey", col = "grey") +
   tm_shape(st_as_sf(protarea_v)) + 
   tm_symbols(col = "UPR",
@@ -59,7 +57,7 @@ UPR
 tmap_save(UPR, file.path(plot_sv, "log10-UPR-map.png"), dpi = 400, units = "in")
 
 # human modification gradient
-MODGRAD <- tm_shape(rnaturalearth::ne_countries(), projection = "+proj=robin") +
+MODGRAD = tm_shape(rnaturalearth::ne_countries(), projection = "+proj=robin") +
   tm_polygons(border.col = "grey", col = "grey") +
   tm_shape(st_as_sf(protarea_v)) + 
   tm_symbols(col = "modgrad",
@@ -68,7 +66,8 @@ MODGRAD <- tm_shape(rnaturalearth::ne_countries(), projection = "+proj=robin") +
              border.alpha = 0,
              palette = met.brewer(name = "Tam"),
              breaks = c(0, 1),
-             style = "cont") +
+             style = "cont",
+             colorNA = NULL) +
   tm_layout(legend.show = T, 
             earth.boundary = c(-179, -60, 179, 88),
             earth.boundary.color = "white", space.color = "white",

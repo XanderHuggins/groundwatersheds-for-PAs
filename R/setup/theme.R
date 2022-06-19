@@ -8,3 +8,10 @@ my_theme = theme_minimal()+
         # panel.grid.major = element_blank(),
         panel.background = element_rect(fill = "transparent", colour = NA),
         plot.background = element_rect(fill = "transparent", colour = NA))
+
+# and one alternative set of theme settings
+cus_theme = theme(panel.background =  element_rect(fill = "transparent"),
+                  plot.background = element_rect(fill = "transparent", colour = NA),
+                  panel.grid = element_blank(),
+                  axis.line = element_line(colour = "black"), panel.ontop = TRUE,
+                  legend.position = "none") 

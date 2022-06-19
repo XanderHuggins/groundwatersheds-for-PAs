@@ -65,6 +65,6 @@ res(wgs_new) = c(1/120, 1/120)
 wgs_new = terra::resample(x=wgs_30arcsec, y=wgs_new, method="near")
 
 writeRaster(wgs_new,
-            file.path(wd, "data/World/input/wgs-area-ras-30-arcsec.tif"), 
+            file.path(dat_loc, "World/input/wgs-area-ras-30-arcsec.tif"), 
             gdal="COMPRESS=LZW",
             overwrite=TRUE)

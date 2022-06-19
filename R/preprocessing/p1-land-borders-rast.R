@@ -1,5 +1,5 @@
 # Name: p1-land-borders-rast.R
-# Description: Generate a binary raster indicating all cells that touch international land border
+# Description: Generate a binary raster indicating all cells that touch an international land border. 
 
 library(here)
 invisible(sapply(paste0(here("R/setup"), "/", list.files(here("R/setup"))), source)) 

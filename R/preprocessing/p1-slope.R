@@ -1,5 +1,5 @@
-# Name: p1-slope-preparation.R
-# Description: Generate global surface slope raster for post-hoc analysis of groundwatersheds
+# Name: p1-slope.R
+# Description: Generate global surface slope raster for post-hoc analysis of possible drivers of relative groundwatershed size.
 
 library(here)
 invisible(sapply(paste0(here("R/setup"), "/", list.files(here("R/setup"))), source)) 

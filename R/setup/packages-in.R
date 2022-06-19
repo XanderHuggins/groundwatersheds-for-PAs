@@ -9,10 +9,12 @@ library(magrittr)
 library(raster) 
 library(terra) 
 library(sf)
-library(spatstat.geom) # check if used anywhere in workflow, remove if not
+library(ncdf4)
 library(rasterDT)
-library(rgeos) 
+library(rgeos)
+library(rgdal)
 library(gdalUtilities)
+library(whitebox)
 
 # plotting
 library(scico) 

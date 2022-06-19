@@ -1,11 +1,11 @@
-# Name: f3-si-misc-plotting.R
-# Description: Plot GDP per capita against UPR
+# Name: f4-si-misc-plotting.R
+# Description: Plot GDP per capita against UPR.
 
 library(here)
 invisible(sapply(paste0(here("R/setup"), "/", list.files(here("R/setup"))), source)) 
 
 # import main data sheet
-s_df = readr::read_csv(file.path(wd, paste0("data/STATS.csv")))
+s_df = readr::read_csv(file.path(dat_loc, "STATS.csv"))
 
 # merge with shapefile, calcaulate centroids
 protarea = terra::vect(file.path(wdpa_wd, "contiguous_protected_areas.shp"))
@@ -15,7 +15,7 @@ prot_pts = st_as_sf(protarea_v)
 
 # extract the nation ID for each protected point centroid
 gdp = terra::rast("D:/Geodatabase/GDP/Kummu/GDP_per_capita_PPP_1990_2015_v2.nc")
-gdp = gdp[[26]]
+gdp = gdp[[26]] # extract data for year 2015
 prot_pts$gdppercap = rep(NA)
 prot_pts$gdppercap = raster::extract(x = raster(gdp), y = prot_pts)
 
@@ -42,7 +42,6 @@ p_a11 <- ggplot(p_df, aes(x = GDPclass, y = UPR)) +
   my_theme + theme(axis.text=element_text(colour="black")) +
   theme(axis.text=element_text(colour="black"),
         plot.margin = unit(c(2,5,2,2), "mm")) +
-  # coord_cartesian(xlim = c(0, 1), expand = c(0,0), clip = 'on') +
   ylab('') + xlab('')
 p_a11
 
