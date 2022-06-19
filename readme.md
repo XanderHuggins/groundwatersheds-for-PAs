@@ -1,4 +1,4 @@
-### Groundwatersheds of the world's protected areas
+# Groundwatersheds of the world's protected areas
 
 This repository documents the workflow of Serrano, Huggins et al. (in review). **Overlooked risks and opportunities for global protected areas revealed by mapping groundwatersheds.**
 
