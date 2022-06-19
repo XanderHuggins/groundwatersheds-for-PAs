@@ -4,7 +4,7 @@ This repository documents the workflow of Serrano, Huggins et al. (in review). *
 
 The repository is organized by four folders, representing stages of the analysis workflow: 1: setup, 2: preprocessing, 3: analysis, and 4:plotting. 
 
-To find and access all data sources used in this analysis, visit [datasources.md](). 
+To find and access all data sources used in this analysis, visit [datasources.md](https://github.com/XanderHuggins/groundwatersheds-for-PAs/blob/main/datasources.md). 
 
 * **R/** -- 
     * **setup/** -- 
