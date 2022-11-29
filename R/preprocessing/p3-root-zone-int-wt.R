@@ -1,5 +1,5 @@
 # Name: p3-root-zone-int-wt.R
-# Description: Identify all grid cells where root zones intersect the water table for min. 1 month/year.
+# Description: Identify terresrial GDEs where root zones intersect the water table for min. 1 month/year.
 
 library(here)
 invisible(sapply(paste0(here("R/setup"), "/", list.files(here("R/setup"))), source)) 
@@ -8,7 +8,7 @@ invisible(sapply(paste0(here("R/setup"), "/", list.files(here("R/setup"))), sour
 for (w in 1:length(world_regions)) {
   message(paste0("starting: ", world_regions[w], " and ", mask_folders[w], "..."))
   
-  # 1- import monthly water table depths and maximum root depth 
+  # step 1: import monthly water table depths and maximum root depth 
   wtd_region = terra::rast(paste0("D:/Geodatabase/Groundwater/Fan_depthtowatertable/Raw/Monthly_means/",
                            mask_folders[w], "_WTD_monthlymeans.nc"))
   mrd_region  = terra::rast(paste0("D:/Geodatabase/Rooting-depth/Raw/maxroot_", rd_names[w], "_CF.nc"))
@@ -26,7 +26,7 @@ for (w in 1:length(world_regions)) {
   rz_intsct[] = 0 # need to initiate with values so that first month doesn't set extent of modifiable cells
   rz_intsct_t = rz_intsct
   
-  # first layer is mask, so iterate layers 2-13
+  # first layer is mask, so iterate layers 2-13 (months 1-12)
   for (m in 2:13) {
     
     rz_intsct_t[mrd_region[[1]] > -wtd_region[[m]]] = 1 # identify where root depth is greater than water table depth
@@ -46,8 +46,8 @@ for (w in 1:length(world_regions)) {
   terra::writeRaster(x = rz_intsct,
                      filename = file.path(dat_loc, world_regions[w], "rz_intersects_month_count.tif"),
                      filetype = "GTiff", overwrite = T)
-
-  # convert monthly counts to binary (1- intersects, 0- does not intersect)
+  
+  # convert monthly counts to binary (1: terrestrial GDE, 0: not a terrestrial GDE)
   rz_intsct[rz_intsct >= 1] = 1
   
   terra::writeRaster(x = rz_intsct,
@@ -58,7 +58,7 @@ for (w in 1:length(world_regions)) {
   
 }
 
-# manually fix overlapping issue between north and south america
+# manually fix an extent overlapping issue between north and south america
 s_am = terra::rast(file.path(dat_loc, "SouthAmerica/rz_intersects_allmonth_binary.tif"))
 mask = terra::rast(paste0("D:/Geodatabase/Groundwater/Fan_depthtowatertable/Raw/Monthly_means/SAMERICA_WTD_monthlymeans.nc"))
 mask = mask[[1]]

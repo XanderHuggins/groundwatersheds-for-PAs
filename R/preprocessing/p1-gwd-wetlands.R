@@ -1,5 +1,5 @@
 # Name: p1-gwd-wetlands.R
-# Description: Extract groundwater-driven wetlands from Tootchi et al. https://doi.org/10.1594/PANGAEA.892657
+# Description: Extract groundwater-driven wetlands from Tootchi et al. (https://doi.org/10.1594/PANGAEA.892657) and resample to 30 arc-second resolution
 
 library(here)
 invisible(sapply(paste0(here("R/setup"), "/", list.files(here("R/setup"))), source)) 
@@ -20,15 +20,15 @@ for (i in 1:length(topo_folders)) {
   cw_wtd_t = terra::crop(x = cw_wtd, y = set_ext[[1]])
   cw_tci_t = terra::crop(x = cw_tci, y = set_ext[[1]])
   
-  # reclassify to extract only groundwater-related wetland classes
+  # reclassify to extract only groundwater-related wetland classes (ids: 1 and 3)
   rcl_df = matrix(c(c(0,1,2,3,4), c(0,1,0,1,0)), nrow = 5, ncol = 2)
   cw_wtd_t = terra::classify(x = cw_wtd_t, rcl = rcl_df, othersNA = TRUE)
   cw_tci_t = terra::classify(x = cw_tci_t, rcl = rcl_df, othersNA = TRUE)
   
-  # create template raster for resampling
+  # create template raster for resampling at 30 arc-seconds
   temp_r = terra::rast(extent = set_ext[[1]], res = 0.5/60)
   
-  # resample to 1 km resolution
+  # aggregate the wetland map to 30 arc-seconds using maximum value 
   cw_wtd_t = terra::resample(x = cw_wtd_t, y = temp_r, method = 'max')
   cw_tci_t = terra::resample(x = cw_tci_t, y = temp_r, method = 'max')
   

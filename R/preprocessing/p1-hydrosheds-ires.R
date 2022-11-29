@@ -4,11 +4,12 @@
 library(here)
 invisible(sapply(paste0(here("R/setup"), "/", list.files(here("R/setup"))), source)) 
 
-# import Messager et al. (2021) perennial river data
+# import list of Messager et al. (2021) HydroRIVERS files
 ires_files = list.files("D:/Geodatabase/HydroSHEDS/GIRES_v10_shp/", pattern = "*.shp", full.names = T)
 ires_files = ires_files[-(length(ires_files))] 
 regns_shfm = c("af", "ar", "as", "au", "eu", "gr", "na", "sa", "si")
 
+# loop through each world region
 for (i in 1:length(ires_files)) {
   
   message(paste("starting", regns_shfm[i], "now!"))
@@ -16,7 +17,9 @@ for (i in 1:length(ires_files)) {
   reg_sf = sf::read_sf(ires_files[i])
   message(paste("shapefile has been read"))
   
-  reg_filt = reg_sf |> dplyr::filter(predcat30 == 0) # Predicted probability that river reach ceases to flow for at least one month (thirty days) per year is <50% 
+  # Filter for probability that river reach ceases to flow for at least one month (thirty days) per year is <50% 
+  reg_filt = reg_sf |> dplyr::filter(predcat30 == 0) 
+  
   message("shapefile has been filtered")
   
   sf::write_sf(obj=reg_filt,
@@ -26,12 +29,15 @@ for (i in 1:length(ires_files)) {
   message(paste(regns_shfm[i], "is done!"))
 }
 
+# import list of files of perennial rivers and streams
 perennial_ires_files = list.files("D:/Geodatabase/HydroSHEDS/GIRES_perennial/", pattern = "*.shp", full.names = T)
 
+# loop through each world region
 for (i in 1:length(ires_files)) {
   
   message(paste("starting", regns_shfm[i], "now!"))
   
+  # rasterize using all touched = TRUE at 30 arc-second resolution
   gdalUtils::gdal_rasterize(src_datasource = perennial_ires_files[i],
                             dst_filename = paste0("D:/Geodatabase/HydroSHEDS/perennial_1km_",
                                                   regns_shfm[i], ".tif"),
@@ -43,7 +49,7 @@ for (i in 1:length(ires_files)) {
   message(paste(regns_shfm[i], "is done!"))
 }
 
-# mosaic perennial stream rasters
+# mosaic regional rasters together
 p_af = terra::rast("D:/Geodatabase/HydroSHEDS/perennial_1km_af.tif")
 p_ar = terra::rast("D:/Geodatabase/HydroSHEDS/perennial_1km_ar.tif")
 p_as = terra::rast("D:/Geodatabase/HydroSHEDS/perennial_1km_as.tif")
@@ -63,7 +69,7 @@ perennial_streams = terra::extend(x = perennial_streams,
                                    y = WGS84_areaRaster(1))
 ext(perennial_streams) = round(ext(terra::rast(WGS84_areaRaster(1))), 0)
 
-# ensure binary (ikely unnecessary step)
+# ensure binary (likely an unnecessary step)
 perennial_streams[perennial_streams > 0] = 1
 
 terra::writeRaster(x = perennial_streams,

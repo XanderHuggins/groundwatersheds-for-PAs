@@ -15,3 +15,11 @@ cus_theme = theme(panel.background =  element_rect(fill = "transparent"),
                   panel.grid = element_blank(),
                   axis.line = element_line(colour = "black"), panel.ontop = TRUE,
                   legend.position = "none") 
+
+theme1 = theme_minimal()+
+  theme(legend.title = element_blank(),
+        plot.background = element_blank(),
+        legend.position = "none",
+        axis.line = element_line(size = 1),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank())

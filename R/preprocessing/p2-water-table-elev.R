@@ -4,8 +4,9 @@
 library(here)
 invisible(sapply(paste0(here("R/setup"), "/", list.files(here("R/setup"))), source)) 
 
-# this is for the mean annual water table depth (for main analysis) ----
+# step 1: perform this conversion for the mean annual water table depth (for main analysis) ----
 for (i in 1:length(topo_folders)) {
+  # import land surface elevation (topo) and water table depth (wtd)
   topo_in = terra::rast(paste0("D:/Geodatabase/Groundwater/Fan_WTD/annualmeans/", topo_folders[i], "_TOPO.nc"))
   wtd_in  = terra::rast(paste0("D:/Geodatabase/Groundwater/Fan_WTD/annualmeans/", topo_folders[i], "_WTD_annualmean.nc"))
   
@@ -18,7 +19,7 @@ for (i in 1:length(topo_folders)) {
   ext(topo_in) = set_ext[[1]]
   ext(wtd_in) = set_ext[[1]]
   
-  # convert
+  # convert water table dpeth to an elevation
   wtelev = topo_in + wtd_in[[2]] # add because wtd is negative (i.e. -100m is 100 mbgs)
   
   wtelev[wtd_in[[1]] == 0] = NA # apply world region mask to water table depth raster
@@ -30,9 +31,11 @@ for (i in 1:length(topo_folders)) {
 }
 
 
-# this is for the monthly annual water table depths (for sensitivity analysis) ----
+# step 2: repeat this conversion for the monthly water table depths (used in sensitivity analysis) ----
 for (i in 1:length(mask_folders)) {
-  for (m in 1:12) {
+  
+  # loop through each month
+  for (m in 1:12) {  
     
     topo_in = terra::rast(paste0("D:/Geodatabase/Groundwater/Fan_WTD/annualmeans/",  topo_folders[i], "_TOPO.nc"))
     wtd_in  = terra::rast(paste0("D:/Geodatabase/Groundwater/Fan_WTD/monthlymeans/", mask_folders[i], "_WTD_monthlymeans.nc"))
@@ -46,7 +49,7 @@ for (i in 1:length(mask_folders)) {
     ext(topo_in) = set_ext[[1]]
     ext(wtd_in) = set_ext[[1]]
     
-    # convert (and have m+1 because first layer of wtd_in is a land mask)
+    # convert (need m+1 because first layer of wtd_in is a land mask)
     wtelev = topo_in + wtd_in[[m+1]] # add because wtd is negative (i.e. -100m is 100 mbgs)
     
     wtelev[wtd_in[[1]] == 0] = NA # apply world region mask to water table depth raster
@@ -57,6 +60,6 @@ for (i in 1:length(mask_folders)) {
     message(paste0(world_regions[i], " month ", m, " is done"))
     
     wtelev = topo_in = wtd_in = NULL
-  
-    }
+    
+  }
 }

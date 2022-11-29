@@ -1,5 +1,5 @@
 # Name: p1-area-ras.R
-# Description: Generate grid cell area raster globally at 30 arc-second following Santini et al. 2010 https://doi.org/10.1111/j.1467-9671.2010.01200.x
+# Description: Generates a grid cell area raster globally at 30 arc-second following Santini et al. 2010 https://doi.org/10.1111/j.1467-9671.2010.01200.x
 
 library(here)
 invisible(sapply(paste0(here("R/setup"), "/", list.files(here("R/setup"))), source)) 
@@ -7,8 +7,7 @@ invisible(sapply(paste0(here("R/setup"), "/", list.files(here("R/setup"))), sour
 # set resolution
 RES = 0.5/60
 
-# calculate area per 'row' in global grid 
-# setting resolution to c(1/120, 1/120) overwhelms RAM
+# calculate area per 'row' in global grid as setting resolution to c(1/120, 1/120) overwhelms RAM
 # workaround: create single longitudinal 'column', then resample at desired dx resolution 
 pi.g = 3.14159265358979  
 Fl = 0.00335281066474 # Flattening
@@ -16,8 +15,8 @@ SMA = 6378137.0 # Semi major axis
 e = sqrt((2*Fl) - (Fl^2)) # Eccentricity  
 
 # initialize dataframe with geodetic latitudes
-df_a = data.frame(LowLAT = seq(-90, 90-RES, by = RES), 
-                   UppLAT = seq(-90+RES, 90, by = RES))
+df_a = data.frame(LowLAT = seq(-90, 90-RES, by = RES),
+                  UppLAT = seq(-90+RES, 90, by = RES))
 
 # convert geodetic latitudes degrees to radians
 df_a$LowLATrad = df_a$LowLAT * pi.g / 180

@@ -1,11 +1,10 @@
-# Name: p1- feow-rasterize.R
-# Description: Convert terrestrial ecoregion shapefile to unique id raster at 30 arc-seconds.
+# Name: p1-teow-rasterize.R
+# Description: Convert terrestrial ecoregion shapefile to unique id raster at 30 arc-second
 
 library(here)
 invisible(sapply(paste0(here("R/setup"), "/", list.files(here("R/setup"))), source)) 
 
 teow = terra::vect("D:/Geodatabase/Ecological/Ecoregions/Terrestrial/wwf_terr_ecos.shp")
-
 teow_r = terra::rasterize(x = teow, 
                            y = terra::rast(file.path(dat_loc, "World/input/wgs-area-ras-30-arcsec.tif")),
                            field = "ECO_ID",

@@ -8,3 +8,4 @@ plot_sv = "C:/Users/xande/Documents/1.projects/1.active-projects/groundwatershed
 
 # Set temporary terra directory to external disk with storage availability
 terraOptions(tempdir = "D://Geodatabase/Rtemp")
+tmpFiles(current=TRUE, remove=TRUE) 

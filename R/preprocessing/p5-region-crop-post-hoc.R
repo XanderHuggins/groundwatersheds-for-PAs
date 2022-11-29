@@ -19,10 +19,6 @@ terra::writeRaster(x = humanmodgrad_r,
                    filename = "D:/Geodatabase/Land-use/lulc-human-modification-terrestrial-systems_0d5arcmin.tif",
                    filetype = "GTiff", overwrite = T)
 
-# permeability needs to be disaggregated 
-permeability  = terra::rast("D:/Geodatabase/Groundwater/GLHYMPS/Permeability_0d05.tif")
-permeability = terra::disagg(x = permeability, fact = 6, method = 'near')
-
 # Loop through and crop and write each cropped raster
 for (w in 1:length(world_regions)) {
   
@@ -35,7 +31,6 @@ for (w in 1:length(world_regions)) {
   crop_ext
   
   region_aridind = terra::crop(x = aridity_index,   y = crop_ext)
-  region_permeab = terra::crop(x = permeability,   y = crop_ext)
   region_modgrad = terra::crop(x = humanmodgrad_r,   y = crop_ext)
   region_natID = terra::crop(x = nat_ID,   y = crop_ext, snap = "near")
   region_prot46 = terra::crop(x = prot_46,   y = crop_ext)
@@ -64,7 +59,6 @@ for (w in 1:length(world_regions)) {
   plot(mask)
   ext(mask) = crop_ext
   region_aridind[mask == 0] = NA
-  region_permeab[mask == 0] = NA
   region_modgrad[mask == 0] = NA
   region_natID[mask == 0] = NA
   region_prot46[mask == 0] = NA

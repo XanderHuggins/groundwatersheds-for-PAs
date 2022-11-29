@@ -11,7 +11,7 @@ for (w in 1:length(world_regions)) {
   
   # import region-specific datasets
       wtelv_rgn = terra::rast(file.path(dat_loc, world_regions[w], "wt_elev.tif")) # mean annual water table
-      ecopp_rgn = terra::rast(file.path(dat_loc, world_regions[w], "ecologically_connected_cells.tif"))
+      gdepp_rgn = terra::rast(file.path(dat_loc, world_regions[w], "gde_pourpoint.tif"))
       prot_area = terra::rast(file.path(dat_loc, world_regions[w], "protected_areas_ID.tif"))
       message(paste0("data import done"))
       
@@ -29,11 +29,11 @@ for (w in 1:length(world_regions)) {
                          overwrite = T)
       message(paste0("d8 cleaning done"))
       
-  # identify ecologically connected areas and set to pour points vector file
-      pp_p = terra::as.points(ecopp_rgn) # Convert to points
+  # identify GDEs and set to pour points vector file
+      pp_p = terra::as.points(gdepp_rgn) # convert to points
       pp_ID = terra::extract(x = prot_area, y = pp_p,  method = 'simple') # Extract FID per point
-      pp_p$FID = pp_ID$FID # Write to vector file
-      pp_p[,1] = NULL # drop row ID
+      pp_p$FID = pp_ID$FID # write extracted PA ID to vector file
+      pp_p[,1] = NULL # drop row ID and keep only PA ID
       terra::writeVector(pp_p, 
                          file.path(dat_loc, world_regions[w], "pour_points_protected_contigID.shp"),
                          filetype = "ESRI Shapefile",

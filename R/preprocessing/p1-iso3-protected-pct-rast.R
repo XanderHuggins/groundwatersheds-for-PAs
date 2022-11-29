@@ -1,10 +1,10 @@
 # Name: p1-iso3-protected-pct-rast.R
-# Description: Generate raster that represents national rates of terrestrial protection.
+# Description: Generate raster that represents nation-based levels of terrestrial protection.
 
 library(here)
 invisible(sapply(paste0(here("R/setup"), "/", list.files(here("R/setup"))), source)) 
 
-# import protected area statistics
+# import protected area statistics from world database on protected areas
 pa_stat = readr::read_csv(file.path(dat_loc, "World/input/", "chapter3_national_pa_statistics.csv"))
 pa_stat = pa_stat |> dplyr::select(ISO3, pa_land_area, percentage_pa_land_cover, land_area)
 pa_stat$ID = seq(1, nrow(pa_stat))
@@ -25,7 +25,7 @@ sf::write_sf(obj=ne_10m,
              layer = "ne10m_prot_area_merge.shp",
              driver = "ESRI Shapefile")
 
-# rasterize using ID
+# rasterize using country ID
 gdalUtils::gdal_rasterize(src_datasource = "D:/Geodatabase/Admin-ocean-boundaries/ne10m_prot_area_merge.shp",
                           dst_filename = "D:/Geodatabase/Admin-ocean-boundaries/ne10m_prot_area_merge.tif",
                           at = T,
@@ -33,7 +33,7 @@ gdalUtils::gdal_rasterize(src_datasource = "D:/Geodatabase/Admin-ocean-boundarie
                           tr = c((1/120), (1/120)),
                           verbose = T)
 
-# rasterize current level of protection
+# rasterize current national level of protection
 gdalUtils::gdal_rasterize(src_datasource = "D:/Geodatabase/Admin-ocean-boundaries/ne10m_prot_area_merge.shp",
                           dst_filename = "D:/Geodatabase/Admin-ocean-boundaries/ne10m_prot_area_percent.tif",
                           at = T,
