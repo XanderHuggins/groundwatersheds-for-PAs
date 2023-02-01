@@ -54,7 +54,7 @@ Each data source is described using the following template: **Data source**, **P
 **Spatial resolution**: 15 arcsecond <br>
 **Description and justification**: Global composite wetland maps that specify sub-classes of routinely flooded wetlands (RFW) and groundwater-driven wetlands (GWD). Though other global wetland maps exist, this is the only dataset to our knowledge that explicitly identifies groundwater-driven wetlands. <br>
 **Preprocessing**: Groundwater-driven wetlands were isolated from the composite wetland maps, and aggregated to 30 arc-second (\~1 km) resolution based on a binary evaluation of if a groundwater-driven wetland grid cell at the original resolution was contained within the grid cell at the aggregated resolution. <br>
-**Preprocessing script**: p1-gwd-wetlands.R <br>
+**Preprocessing script**: [p1-gwd-wetlands.R](https://github.com/XanderHuggins/groundwatersheds-for-PAs/blob/main/scripts/1-preprocessing/p1-gwd-wetlands.R) <br>
 
 ## Lakes
 **Data source**: Messager et al. (2016) <br>
