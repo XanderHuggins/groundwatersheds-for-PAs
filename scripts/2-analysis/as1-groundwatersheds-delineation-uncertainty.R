@@ -10,9 +10,9 @@ for (w in 1:length(world_regions)) {
  
     message(paste0("starting: ", world_regions[w], " for month ", m, "..."))
     
-    # import region-specific datasets
+    # import region-specific data sets
     wtelv_rgn = terra::rast(file.path(dat_loc, world_regions[w], paste0("wt_elev_month_", m, ".tif"))) # mean monthly water table
-    ecopp_rgn = terra::rast(file.path(dat_loc, world_regions[w], "gde_pourpoint.tif"))
+    gdepp_rgn = terra::rast(file.path(dat_loc, world_regions[w], "gde_pourpoint.tif"))
     prot_area = terra::rast(file.path(dat_loc, world_regions[w], "protected_areas_ID.tif"))
     message(paste0("data import done"))
     
@@ -31,10 +31,10 @@ for (w in 1:length(world_regions)) {
     message(paste0("d8 cleaning done"))
     
     # identify ecologically connected areas and set to pour points vector file
-    pp_p = terra::as.points(ecopp_rgn) # convert to points
+    pp_p = terra::as.points(gdepp_rgn) # convert to points
     pp_ID = terra::extract(x = prot_area, y = pp_p,  method = 'simple') # Extract FID per point
-    pp_p$FID = pp_ID$FID # write to vector file
-    pp_p[,1] = NULL # drop row ID
+    pp_p$fid = pp_ID$fid # write extracted PA ID to vector file
+    pp_p[,1] = NULL # drop row ID and keep only PA ID
     terra::writeVector(pp_p,
                        paste0(dat_loc, "/", world_regions[w], "/pour_points_protected_contigID.shp"),
                        filetype = "ESRI Shapefile",
@@ -49,9 +49,8 @@ for (w in 1:length(world_regions)) {
     message(paste0("individual groundwatersheds done"))
     
     # reclassify groundwatersheds based on WDPDA membership
-    rcl_df = data.frame(pp_ID$FID,
-                        pp_ID$ID)
-    rcl_df$pp_ID.FID = rcl_df$pp_ID.FID
+    rcl_df = data.frame(pp_ID$fid, # this is the protected area id (set to)
+                        pp_ID$ID)  # this is the pour point index  (set from)
     colnames(rcl_df) = NA
 
     readr::write_delim(x = rcl_df,
@@ -66,6 +65,6 @@ for (w in 1:length(world_regions)) {
     
     print(paste0(world_regions[w], " month ", m, " complete!")) 
     
-    wtelv_rgn = ecopp_rgn = prot_area = d8 = NULL 
+    wtelv_rgn = gdepp_rgn = prot_area = d8 = NULL 
   }
 }

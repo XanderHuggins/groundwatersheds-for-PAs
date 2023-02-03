@@ -35,7 +35,7 @@ denom = sum(stat_df$lyr.1, na.rm = T)
 ggplot(data = stat_df, aes(x = as.factor(rank), y = pct, fill = as.factor(rank))) +
   geom_bar(stat = 'identity', color = 'black', linewidth = 3, width = 1) +
   scale_fill_manual(values = c(stat_df$plot_col)) +
-  coord_cartesian(expand = 0, ylim=c(0, 0.6),clip = "off") +
+  coord_cartesian(expand = 0, ylim=c(0, 0.65),clip = "off") +
   cus_theme + theme(axis.ticks.x = element_line(size = 1)) 
 
 ggsave(plot = last_plot(), 
@@ -45,11 +45,9 @@ ggsave(plot = last_plot(),
 
 # create plot of percent of GDEs that are protected 
 
-# load gde tiles and area raster
-gde_c = terra::rast(file.path(dat_loc, "World/GDE_classification_composite.tif"))
+# load protection rasters
 pa_hi = terra::rast(file.path(wdpa_wd,  "protected_areas_classes_13_filtered_AT_land.tif"))
 pa_lo = terra::rast(file.path(wdpa_wd,  "protected_areas_classes_46_filtered_AT_land.tif"))
-sarea = terra::rast(file.path(dat_loc, "World/input/wgs-area-ras-30-arcsec.tif"))
 
 # create high-low protected area raster:
 pa_id = pa_lo

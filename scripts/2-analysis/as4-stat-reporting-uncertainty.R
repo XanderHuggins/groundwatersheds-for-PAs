@@ -41,10 +41,6 @@ sum(s_df$gwshed_area, na.rm = T)/1e12
 
 (month_sums-sum(s_df$gwshed_area, na.rm = T))/1e12
 
-# coefficient of variation
-sd(month_sums) / mean(month_sums) # 0.00618
-
-(max(month_sums)-min(month_sums)) / mean(month_sums) # 0.01908
-
+sd(month_sums) / mean(month_sums) # 0.00623855
 max(month_sums)
 min(month_sums)
