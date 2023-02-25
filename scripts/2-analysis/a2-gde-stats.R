@@ -93,7 +93,9 @@ plot_df$pa_all = plot_df$pa_high + plot_df$pa_low + plot_df$pa_none
 plot_df$rank = rank(-plot_df$pa_all)
 plot_df = plot_df[order(plot_df$rank),] 
 
-plot_df_m = plot_df |> dplyr::select(!pa_all) |> melt(id.vars = c('z', 'rank'))
+plot_df_m = plot_df |> 
+  dplyr::select(!pa_all) |>
+  melt(id.vars = c('z', 'rank'))
 plot_df_m = plot_df_m |> filter(variable != "pa_none")
 
 ggplot(data = plot_df_m, aes(x = as.factor(rank), y = value/denom, 
@@ -126,3 +128,13 @@ ggplot(radial_df, aes(ymax=frac_cumsum, ymin=frac_min, xmax=4, xmin=3, fill=id))
 ggsave(plot = last_plot(), 
        file.path(plot_sv, "gde_protected_percentage.pdf"), 
        dpi = 500, width = 6, height = 6, units = "in")
+
+
+# z        lyr.1 plot_col rank         pct
+# 2  10 4.629814e+13  #3153A4    1 0.598859417
+# 6 110 1.261650e+13  #137A8D    2 0.163192546
+# 7 111 7.814046e+12  #00E6FF    3 0.101073510
+# 3  11 7.032300e+12  #7E287F    4 0.090961741
+# 4 100 3.099186e+12  #5CB953    5 0.040087500
+# 1   1 2.927401e+11  #EC2B31    6 0.003786549
+# 5 101 1.576159e+11  #FFE520    7 0.002038738
