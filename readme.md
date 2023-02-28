@@ -1,6 +1,8 @@
 # Code for: Overlooked risks and opportunities in groundwatersheds of the world’s protected areas
 
-This is the code repository associated with the paper: Huggins et al. (2023). Overlooked risks and opportunities in groundwatersheds of the world’s protected areas. *Nature Sustainability*. (Accepted in principle). Preprint available at: https://eartharxiv.org/repository/view/3605/
+[![](<https://img.shields.io/badge/Dataverse DOI-10.5683/SP3/P3OU3A-yellow>)](https://doi.org/10.5683/SP3/P3OU3A)
+
+This is the code repository associated with the paper: Huggins et al. (2023). Overlooked risks and opportunities in groundwatersheds of the world’s protected areas. *Nature Sustainability*. (In press). Preprint available at: https://eartharxiv.org/repository/view/3605/
 
 **Repository structure**:
 - [datasources.md](https://github.com/XanderHuggins/groundwatersheds-for-PAs/blob/main/datasources.md) : documentation and web-links to all data used in this study.

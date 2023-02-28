@@ -11,4 +11,4 @@ jobs:
           DATAVERSE_SERVER: https://borealisdata.ca
           DATAVERSE_DATASET_DOI: doi:10.5683/SP3/P3OU3A
           GITHUB_DIR: scripts
-          DELETE: True 
+          DELETE: False 
