@@ -4,10 +4,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Dataverse Uploader Action
+      - name: Send scripts to Dataverse 
         uses: IQSS/dataverse-uploader@v1.4
         with:
-          DATAVERSE_TOKEN: ${{ secrets.3c620e60-6323-4889-a2e4-aaef16615901 }}
-          DATAVERSE_SERVER: https://borealisdata.ca/dataverse/uvic
+          DATAVERSE_TOKEN: ${{secrets.DATAVERSE_TOKEN}}
+          DATAVERSE_SERVER: https://borealisdata.ca
           DATAVERSE_DATASET_DOI: doi:10.5683/SP3/P3OU3A
+          GITHUB_DIR: scripts
           DELETE: False 
