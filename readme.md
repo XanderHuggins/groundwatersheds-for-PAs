@@ -10,7 +10,7 @@ This is the code repository associated with the paper: Huggins et al. (2023). Ov
 <br/>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/XanderHuggins/groundwatersheds-for-PAs/main/docs/repo-overview.png" 
+  <img src="https://raw.githubusercontent.com/XanderHuggins/groundwatersheds-for-PAs/main/docs/00-scripts-overview.png" 
   width="100%"/>
 </p>
 <br/> 

@@ -6,7 +6,7 @@ invisible(sapply(paste0(here("scripts/setup"), "/", list.files(here("scripts/set
 
 # step 1: WDPA data comes in 3 extraction sets. Loop through each, export subsets, and then merge.
 for (i in 1:3) {
-  i = 3
+  
   # read in batch of WDPA protected areas
   wdpa_t = sf::read_sf(paste0("D:/Geodatabase/Ecological/WDPA/Extracted_", i, 
                                "/WDPA_Jun2021_Public_shp-polygons.shp"))
@@ -18,7 +18,7 @@ for (i in 1:3) {
   # filter for these high levels
   wdpa_t_high = wdpa_t %>% 
     filter(IUCN_CAT %in% keep_classes_high) %>% 
-    filter(GIS_AREA > 1) # filter also by reported surface area as min. 1 km2
+    filter(GIS_AREA >= 1) # filter also by reported surface area as min. 1 km2
   
   # strings for "low" levels of protection
   keep_classes_low = c("IV", "V", "VI", "Not Applicable")
@@ -26,7 +26,7 @@ for (i in 1:3) {
   # filter for these low levels
   wdpa_t_low = wdpa_t %>% 
     filter(IUCN_CAT %in% keep_classes_low) %>% 
-    filter(GIS_AREA > 1) # filter also by reported surface area as min. 1 km2
+    filter(GIS_AREA >= 1) # filter also by reported surface area as min. 1 km2
   
   message("classes filtered")
   
@@ -75,8 +75,8 @@ wdpa_r2 = terra::rast(file.path(wdpa_wd,  "iucn_wdpa2_1to3.tif"))
 wdpa_r3 = terra::rast(file.path(wdpa_wd,  "iucn_wdpa3_1to3.tif"))
 
 # combine into one binary raster
-wdpa_r_all = wdpa_r1+wdpa_r2+wdpa_r3
-wdpa_r_all[wdpa_r_all>=1] = 1
+wdpa_r_all = wdpa_r1 + wdpa_r2 + wdpa_r3
+wdpa_r_all[wdpa_r_all >= 1] = 1
 wdpa_r_all[wdpa_r_all != 1] = NA
 
 terra::writeRaster(x = wdpa_r_all, 
@@ -93,7 +93,7 @@ wdpa_r2 = terra::rast(file.path(wdpa_wd,  "iucn_wdpa2_4to6.tif"))
 wdpa_r3 = terra::rast(file.path(wdpa_wd,  "iucn_wdpa3_4to6.tif"))
 
 # combine into one binary raster
-wdpa_r_all = wdpa_r1+wdpa_r2+wdpa_r3
+wdpa_r_all = wdpa_r1 + wdpa_r2 + wdpa_r3
 wdpa_r_all[wdpa_r_all >= 1] = 1
 wdpa_r_all[wdpa_r_all != 1] = NA
 
