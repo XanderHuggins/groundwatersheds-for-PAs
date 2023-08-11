@@ -15,7 +15,7 @@ This is the code repository associated with the paper: Huggins, X., Gleeson, T.,
 </p>
 <br/> 
 
-Additional scripts, such as plotting scripts, can me made available upon request. 
+Additional scripts, such as plotting scripts, can be made available upon request. 
 
 For any questions about this repository, please contact:
 Xander Huggins
